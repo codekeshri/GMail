@@ -1,0 +1,10 @@
+body {
+  background-color: white;
+  text-align: center;
+}
+
+form {
+  margin-top: 100px;
+  background-color: peachpuff;
+}
+/* style={{ marginTop: '600px', backgroundColor: '#f8f9fa' }} */

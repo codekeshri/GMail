@@ -11,21 +11,23 @@ export const Signup = () => {
   const [passwordEmail, setPasswordEmail] = useState('');
   const navigate = useNavigate();
 
-  const emailInputHandler = e => {
+  const emailInputHandler = (e) => {
     setEmail(e.target.value);
   };
 
-  const usernameInputHandler = e => {
+  const usernameInputHandler = (e) => {
     setUsername(e.target.value);
   };
 
-  const passwordHandler = e => {
+  const passwordHandler = (e) => {
     setPassword(e.target.value);
   };
 
-  const url = !isSignup ? import.meta.env.VITE_SIGNUP : import.meta.env.VITE_LOGIN;
+  const url = !isSignup
+    ? import.meta.env.VITE_SIGNUP
+    : import.meta.env.VITE_LOGIN;
 
-  const signupHandler = async e => {
+  const signupHandler = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(url, {
@@ -41,14 +43,18 @@ export const Signup = () => {
     } catch (error) {
       if (error.response) {
         toast.error(error.message);
-        console.error('Error if:', error.response.data.error.message, error.response.data);
+        console.error(
+          'Error if:',
+          error.response.data.error.message,
+          error.response.data
+        );
       } else {
         console.error('Error else:', error.message);
       }
     }
   };
 
-  const signinHandler = async e => {
+  const signinHandler = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(url, {
@@ -61,14 +67,17 @@ export const Signup = () => {
       localStorage.setItem('refreshToken', res.data.refreshToken);
       localStorage.setItem('localId', res.data.localId);
       localStorage.setItem('email', email);
-      navigate('/home');
+      navigate('/Inbox');
       setEmail('');
       setUsername('');
       setPassword('');
     } catch (error) {
       if (error.response) {
         toast.error(error.message);
-        console.error('Error during sign up:', error.response.data.error.message);
+        console.error(
+          'Error during sign up:',
+          error.response.data.error.message
+        );
       } else {
         toast.error(error.message);
         console.error('Error during sign up:', error.message);
@@ -76,12 +85,12 @@ export const Signup = () => {
     }
   };
 
-  const linkToggle = e => {
+  const linkToggle = (e) => {
     e.preventDefault();
     setIsSignup(!isSignup);
   };
 
-  const forgotPasswordHandler = async e => {
+  const forgotPasswordHandler = async (e) => {
     e.preventDefault();
     console.log(passwordEmail);
     const payload = {
@@ -101,51 +110,105 @@ export const Signup = () => {
     }
   };
 
-  const passwordEmailInputHandler = async e => {
+  const passwordEmailInputHandler = async (e) => {
     e.preventDefault();
     setPasswordEmail(e.target.value);
   };
 
   return (
-    <div className="container">
-      <h5>GMail</h5>
+    <div className="container text-center mt-5 form">
+      <h3>GMail</h3>
       <div className="signup">
-        {isSignup && <input type="text" className="input" onChange={usernameInputHandler} placeholder="username" value={username} />}
+        {isSignup && (
+          <input
+            type="text"
+            className="input"
+            onChange={usernameInputHandler}
+            placeholder="username"
+            value={username}
+          />
+        )}
         <br />
-        <input type="text" className="input" onChange={emailInputHandler} placeholder="your email" value={email} />
+        <input
+          type="text"
+          className="input"
+          onChange={emailInputHandler}
+          placeholder="your email"
+          value={email}
+        />
         <br />
-        <input type="text" className="input" onChange={passwordHandler} placeholder="password" value={password} />
+        <input
+          type="text"
+          className="input"
+          onChange={passwordHandler}
+          placeholder="password"
+          value={password}
+        />
         <br />
         <br />
-        <button className="input btn btn-outline-secondary" onClick={isSignup ? signupHandler : signinHandler}>
+        <button
+          className="input btn btn-outline-secondary"
+          onClick={isSignup ? signupHandler : signinHandler}
+        >
           {isSignup ? 'Register' : 'Login'}
         </button>
         <br />
         {!isSignup && (
-          <a href="" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">
+          <a
+            href=""
+            data-bs-toggle="modal"
+            data-bs-target="#forgotPasswordModal"
+          >
             Forgot Password
           </a>
         )}
         <br />
-        <div className="modal fade" id="forgotPasswordModal" tabIndex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+        <div
+          className="modal fade"
+          id="forgotPasswordModal"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="forgotPasswordModalLabel"
+          aria-hidden="true"
+        >
           <div className="modal-dialog modal-dialog-centered" role="document">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="forgotPasswordModalLabel">
                   Reset Password
                 </h5>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
               </div>
               <div className="modal-body">
                 <form action="" className="form-group">
-                  <input type="text" className="form-control" placeholder="Enter email" onChange={passwordEmailInputHandler} value={passwordEmail} />
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter email"
+                    onChange={passwordEmailInputHandler}
+                    value={passwordEmail}
+                  />
                 </form>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
                   Close
                 </button>
-                <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={forgotPasswordHandler}>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  data-bs-dismiss="modal"
+                  onClick={forgotPasswordHandler}
+                >
                   Send Password Reset Link
                 </button>
               </div>
