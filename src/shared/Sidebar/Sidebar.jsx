@@ -8,6 +8,9 @@ function Sidebar() {
   const goToSentPage = () => {
     navigate('/sent');
   };
+  const goToComposePage = () => {
+    navigate('/compose');
+  };
   return (
     <>
       <div className="container-fluid">
@@ -22,6 +25,17 @@ function Sidebar() {
                 className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
                 id="menu"
               >
+                <li className="nav-item">
+                  <a href="#" className="nav-link align-middle px-0">
+                    <i className="fs-4 bi-house"></i>{' '}
+                    <span
+                      className="ms-1 d-none d-sm-inline"
+                      onClick={goToComposePage}
+                    >
+                      Compose
+                    </span>
+                  </a>
+                </li>
                 <li className="nav-item">
                   <a href="#" className="nav-link align-middle px-0">
                     <i className="fs-4 bi-house"></i>{' '}

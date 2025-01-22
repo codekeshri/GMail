@@ -5,6 +5,7 @@ import Layout from '../shared/Layout/Layout';
 import Compose from '../components/Compose.jsx';
 import Inbox from '../components/Inbox.jsx';
 import Sent from '../components/Sent.jsx';
+import ReadMail from '../components/ReadMail.jsx';
 
 function AppRouter() {
   return (
@@ -19,6 +20,7 @@ function AppRouter() {
                 <Route path="/compose" element={<Compose />} />
                 <Route path="/sent" element={<Sent />} />
                 <Route path="/inbox" element={<Inbox />} />
+                <Route path="/read-mail" element={<ReadMail />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Layout>
