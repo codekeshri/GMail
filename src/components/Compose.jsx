@@ -4,8 +4,9 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { setEmail, sendEmail, discardEmail } from '../store/emailSlice';
 import toast from 'react-hot-toast';
+import { set, ref } from 'firebase/database';
+import { database } from '../firebase/firebase';
 
 function Compose() {
   const dispatch = useDispatch();
@@ -18,16 +19,22 @@ function Compose() {
 
   const handleSend = (e) => {
     e.preventDefault();
-    dispatch(setEmail({ to, subject, message }));
-    dispatch(sendEmail());
+    const emailRef = ref(database, `inbox/${Date.now().toString()}`);
+    const time = Date.now().toString();
+    set(emailRef, { to, subject, message, time, id: Number(time) });
     toast('Email sent successfully');
+    handleDiscard();
   };
 
   const handleDiscard = () => {
-    dispatch(discardEmail());
     setTo('');
     setSubject('');
     setMessage('');
+  };
+
+  // ReactQuill provides string directly for input
+  const handleMessageChange = (message) => {
+    setMessage(message);
   };
 
   return (
@@ -58,7 +65,7 @@ function Compose() {
             id="subject"
             placeholder="Enter subject"
             value={subject}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={(e) => setSubject(e.target.value)}
           />
         </div>
 
@@ -67,7 +74,7 @@ function Compose() {
           <ReactQuill
             theme="snow"
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={handleMessageChange}
             placeholder="Write your message here..."
             style={{
               height: '200px',

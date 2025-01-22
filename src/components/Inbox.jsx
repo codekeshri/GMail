@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEnvelope } from '@fortawesome/free-solid-svg-icons';
@@ -25,6 +25,14 @@ function Inbox() {
       time: '3:15 PM',
     },
   ]);
+
+  // useEffect(() => {
+  //   function getEmails() {
+  //     setEmails();
+  //   }
+
+  //   getEmails();
+  // }, []);
 
   // Function to delete an email
   const deleteEmail = (id) => {

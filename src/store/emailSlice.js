@@ -1,51 +1,34 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import toast from 'react-hot-toast';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  email: {
-    to: '',
-    subject: '',
-    message: '',
+  inbox: [],
+  sent: [],
+  emailToSend: {
+    email: { to: '', subject: '', message: '' },
+    status: 'idle',
   },
-  status: 'idle', // 'sending', 'idle' or 'success'
+  status: 'idle',
+  error: null,
 };
-
-export const sendEmailToBackend = createAsyncThunk(
-  'email/sendEmailToBackend',
-  async (email, { rejectwithValue }) => {
-    try {
-      const response = await axios.post('url', email);
-      return response.data;
-    } catch (error) {
-      const err = rejectwithValue(
-        error.response?.data.toString() || 'Error sending email'
-      );
-      toast(err);
-    }
-  }
-);
 
 const emailSlice = createSlice({
   name: 'email',
-  initialState,
+  initialState: initialState,
   reducers: {
-    setEmail: (state, action) => {
-      state.email = action.payload;
+    setEmailToSend(state, action) {
+      state.emailToSend = { ...state.emailToSend, ...action.payload };
     },
-    sendEmail: (state, action) => {
-      state.email = 'sending';
-    },
-    discardEmail: (state, action) => {
-      state.email = initialState.email;
-      state.status = 'idle';
-    },
-    setEmailSuccess: (state, action) => {
-      state.status = 'success';
+    resetEmailToSend(state) {
+      state.emailToSend = initialState.emailToSend;
     },
   },
 });
 
-export const { setEmail, sendEmail, discardEmail, setEmailSuccess } =
-  emailSlice.actions;
+export const {
+  setInboxEmails,
+  setSentEmails,
+  setEmailToSend,
+  resetEmailToSend,
+} = emailSlice.actions;
+
 export default emailSlice.reducer;
